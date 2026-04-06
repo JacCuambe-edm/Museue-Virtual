@@ -233,6 +233,41 @@ async function initDatabase() {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   `);
 
+  // Visitor Sessions table
+  await connection.query(`
+    CREATE TABLE IF NOT EXISTS visitor_sessions (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      session_id VARCHAR(64) NOT NULL UNIQUE,
+      ip_address VARCHAR(64),
+      user_agent TEXT,
+      browser VARCHAR(100),
+      browser_version VARCHAR(50),
+      os VARCHAR(100),
+      device_type ENUM('desktop','mobile','tablet','unknown') DEFAULT 'unknown',
+      referrer TEXT,
+      total_pages INT DEFAULT 0,
+      duration_seconds INT DEFAULT 0,
+      started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      ended_at TIMESTAMP NULL,
+      last_seen_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  `);
+
+  // Page Visit Logs table
+  await connection.query(`
+    CREATE TABLE IF NOT EXISTS page_visit_logs (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      session_id VARCHAR(64) NOT NULL,
+      page_path VARCHAR(500) NOT NULL,
+      page_title VARCHAR(500),
+      time_spent_seconds INT DEFAULT 0,
+      visited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      INDEX idx_session (session_id),
+      INDEX idx_path (page_path(100)),
+      INDEX idx_visited_at (visited_at)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  `);
+
   await connection.end();
   console.log(`✅ Database "${dbName}" initialized with all tables`);
 }

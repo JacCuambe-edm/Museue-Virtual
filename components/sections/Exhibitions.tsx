@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Exhibitions: React.FC = () => {
   return (
-    <section className="py-32 px-8 bg-surface-container-low text-center font-body">
+    <section id="exposicoes" className="py-32 px-8 bg-surface-container-low text-center font-body">
       <div className="max-w-4xl mx-auto space-y-8">
         <h2 className="text-5xl md:text-7xl font-black font-headline tracking-tighter text-on-surface">
           ESPAÇO DE <br/> <span className="text-primary-container">EXPOSIÇÕES</span> ONLINE

@@ -34,20 +34,20 @@ const Immersion: React.FC = () => {
       <div className="max-w-7xl mx-auto px-8">
         <div className="relative rounded-[2rem] overflow-hidden bg-primary-container aspect-[21/9] flex items-center justify-center shadow-2xl">
           <img 
-            className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-60" 
-            alt={article.title} 
-            src={bgImage}
+            className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-40" 
+            alt="Wide angle view of a power station" 
+            src="https://9c1d08050eb7db8d4704e1dad847a643.cdn.bubble.io/cdn-cgi/image/w=128,h=128,f=auto,dpr=1.5,fit=contain/f1706512652442x252334399599591900/div.framer-1htupq9.png"
           />
           <div className="relative z-10 text-center px-6">
-            <h2 className="text-4xl md:text-5xl font-black font-headline text-on-primary mb-6 line-clamp-2">
-              {article.title}
+            <h2 className="text-4xl md:text-6xl font-black font-headline text-on-primary mb-6">
+              IMERSÃO 360º
             </h2>
-            <p className="text-on-primary/90 font-bold mb-8 max-w-2xl mx-auto line-clamp-2 text-lg">
-              {article.short_description || (article.content ? article.content.substring(0, 150) + '...' : 'Explore este artigo fascinante no Museu da EDM.')}
+            <p className="text-on-primary/80 font-bold mb-8 max-w-xl mx-auto">
+              Visite virtualmente as nossas centrais e subestações sem sair de casa.
             </p>
-            <Link to={`/artigo/${article.id}`} className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform group mb-8 mx-auto">
-              <span className="material-symbols-outlined text-4xl text-primary-container group-hover:text-on-surface">menu_book</span>
-            </Link>
+            <button className="bg-on-primary text-primary-container w-20 h-20 rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-2xl">
+              <span className="material-symbols-outlined text-4xl" style={{fontVariationSettings: "'FILL' 1"}}>play_arrow</span>
+            </button>
           </div>
         </div>
       </div>

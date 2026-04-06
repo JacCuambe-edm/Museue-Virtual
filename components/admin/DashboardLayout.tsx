@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { 
-  Home, 
-  BookOpen, 
+import {
+  Home,
+  BookOpen,
   Package,
   Image,
-  Landmark, 
+  Landmark,
   Calendar,
-  LogOut, 
-  Menu, 
+  LogOut,
+  Menu,
   X,
   Bell,
   Search,
@@ -19,7 +19,8 @@ import {
   PieChart,
   ArrowUpRight,
   Users,
-  Quote
+  Quote,
+  Activity
 } from 'lucide-react';
 import { api } from '../../services/apiClient';
 
@@ -48,6 +49,7 @@ const DashboardLayout: React.FC = () => {
   const menuItems = [
     { name: 'Dashboard', icon: Home, path: '/admin/dashboard' },
     { name: 'Analytics', icon: PieChart, path: '/admin/dashboard/analytics' },
+    { name: 'Logs de Actividade', icon: Activity, path: '/admin/dashboard/logs' },
     { name: 'Histórias', icon: BookOpen, path: '/admin/dashboard/stories' },
     { name: 'Artefatos', icon: Package, path: '/admin/dashboard/artifacts' },
     { name: 'Exposições', icon: Image, path: '/admin/dashboard/exhibitions' },

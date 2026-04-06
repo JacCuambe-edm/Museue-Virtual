@@ -19,6 +19,7 @@ const tagsRoutes = require('./routes/tags');
 const usersRoutes = require('./routes/users');
 const dashboardRoutes = require('./routes/dashboard');
 const uploadRoutes = require('./routes/upload');
+const logsRoutes = require('./routes/logs');
 
 const app = express();
 
@@ -53,6 +54,7 @@ app.use('/api/tags', tagsRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/logs', logsRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

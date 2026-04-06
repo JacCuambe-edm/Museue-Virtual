@@ -1,8 +1,4 @@
-// detect if we are running in development or production to set the correct API base
-const isDev = window.location.port === '5173';
-const API_BASE = isDev ? '/api' : '/museuedm/api';
-// Fallback: if we simply can't find it, try to use current origin
-// But for now, let's stick to the most likely fix for XAMPP
+const API_BASE = import.meta.env.VITE_API_BASE || '/api';
 
 interface ApiResponse<T> {
     data?: T;
@@ -186,6 +182,27 @@ export const api = {
     getDashboardStats: () => request<any>('GET', '/dashboard/stats'),
     getDashboardChartData: () => request<any[]>('GET', '/dashboard/chart-data'),
     getAnalyticsDetails: (range?: string) => request<any>('GET', `/dashboard/analytics-details${range ? `?range=${range}` : ''}`),
+
+    // Logs / Session Tracking
+    startSession: (data: { session_id: string; referrer?: string; page_path?: string; page_title?: string }) =>
+        request<any>('POST', '/logs/session', data),
+    logPage: (data: { session_id: string; page_path: string; page_title?: string; prev_page_id?: number; time_spent_seconds?: number }) =>
+        request<any>('POST', '/logs/page', data),
+    endSession: (data: { session_id: string; duration_seconds: number; last_page_id?: number; last_page_time?: number }) =>
+        request<any>('POST', '/logs/session/end', data),
+    getLogsSummary: () => request<any>('GET', '/logs/summary'),
+    getLogsSessions: (params?: { page?: number; limit?: number; range?: string; device?: string; search?: string }) => {
+        const query = new URLSearchParams();
+        if (params?.page)   query.set('page',   String(params.page));
+        if (params?.limit)  query.set('limit',  String(params.limit));
+        if (params?.range)  query.set('range',  params.range);
+        if (params?.device) query.set('device', params.device);
+        if (params?.search) query.set('search', params.search);
+        const qs = query.toString();
+        return request<any>('GET', `/logs/sessions${qs ? '?' + qs : ''}`);
+    },
+    getSessionPages: (session_id: string) => request<any[]>('GET', `/logs/session/${session_id}/pages`),
+    getLogsExportUrl: (range = '30d') => `${API_BASE}/logs/export?range=${range}`,
 
     // File Upload (Multipart Form Data)
     uploadImage: async (file: File) => {

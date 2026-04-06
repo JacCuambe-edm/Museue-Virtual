@@ -8,8 +8,9 @@ import FeaturedStories from './components/sections/FeaturedStories';
 import Immersion from './components/sections/Immersion';
 import LifeStories from './components/sections/LifeStories';
 import Heritage from './components/sections/Heritage';
-import Exhibitions from './components/sections/Exhibitions';
+import LogoCloud from './components/sections/LogoCloud';
 import Artifacts from './components/sections/Artifacts';
+import Exhibitions from './components/sections/Exhibitions';
 import SobreMuseu from './components/pages/SobreMuseu';
 import ApresentacaoEmpresa from './components/pages/ApresentacaoEmpresa';
 import Geracao from './components/pages/Geracao';
@@ -39,6 +40,8 @@ import ArtefatosDistribuicao from './components/pages/ArtefatosDistribuicao';
 import ArtefatosComercial from './components/pages/ArtefatosComercial';
 import ArtefatoDetail from './components/pages/ArtefatoDetail';
 import TimelinePage from './components/pages/TimelinePage';
+import SessionTracker from './components/SessionTracker';
+import LogsDashboard from './components/admin/logs/LogsDashboard';
 import Login from './components/admin/Login';
 import DashboardLayout from './components/admin/DashboardLayout';
 import DashboardHome from './components/admin/DashboardHome';
@@ -72,7 +75,7 @@ const HomePage: React.FC = () => {
       <LifeStories />
       <Heritage />
       <Exhibitions />
-      <Artifacts />
+      <LogoCloud />
     </>
   );
 };
@@ -81,6 +84,7 @@ const HomePage: React.FC = () => {
 const PublicLayout: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col font-body bg-background text-on-surface selection:bg-primary-container selection:text-on-primary">
+      <SessionTracker />
       <Header />
       <main className="flex-grow pt-0">
         <Outlet />
@@ -100,6 +104,7 @@ function App() {
         <Route path="/admin/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
           <Route path="analytics" element={<AnalyticsDashboard />} />
+          <Route path="logs" element={<LogsDashboard />} />
           <Route path="stories" element={<StoryList />} />
           <Route path="stories/create" element={<StoryForm />} />
           <Route path="stories/edit/:id" element={<StoryForm />} />

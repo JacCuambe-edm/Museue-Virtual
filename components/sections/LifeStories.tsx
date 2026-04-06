@@ -61,6 +61,9 @@ const LifeStories: React.FC = () => {
     <section className="py-24 px-8 bg-surface-container-low font-body">
       <div className="max-w-5xl mx-auto">
         <div className="flex flex-col items-center text-center gap-12">
+          <h2 className="text-4xl md:text-6xl font-black font-headline tracking-tighter text-on-surface mb-8">
+            Histórias de Vida
+          </h2>
           <div className="relative">
             <div className="absolute -inset-2 bg-primary-container rounded-full blur-lg opacity-10"></div>
             <img 

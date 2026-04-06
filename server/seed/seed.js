@@ -258,15 +258,15 @@ async function seed() {
         // ========== 9. COMMENTS ==========
         console.log('💬 Seeding comments...');
         const comments = [
-            { article_id: 20, body: "FNVHGHGJH", likes_count: 1, likes: "admin@gmail.com" },
-            { article_id: 20, body: "GKJKJGK", likes_count: 0, likes: "" },
-            { article_id: 20, body: "HFJHGJGKJGKJ", likes_count: 0, likes: "" }
+            { entity_type: 'article', entity_id: 20, author_name: 'Admin', content: "FNVHGHGJH", status: 'approved' },
+            { entity_type: 'article', entity_id: 20, author_name: 'Admin', content: "GKJKJGK", status: 'approved' },
+            { entity_type: 'article', entity_id: 20, author_name: 'Admin', content: "HFJHGJGKJGKJ", status: 'approved' }
         ];
 
         for (const c of comments) {
             await connection.query(
-                'INSERT INTO comments (article_id, body, likes_count, likes) VALUES (?, ?, ?, ?)',
-                [c.article_id, c.body, c.likes_count, c.likes]
+                'INSERT INTO comments (entity_type, entity_id, author_name, content, status) VALUES (?, ?, ?, ?, ?)',
+                [c.entity_type, c.entity_id, c.author_name, c.content, c.status]
             );
         }
         console.log(`   ✅ ${comments.length} comments inserted`);

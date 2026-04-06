@@ -1,0 +1,63 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: museu-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-edm2022}
+      MYSQL_DATABASE: ${DB_NAME:-museu_edm_final}
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3310:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    command: ['--default-authentication-plugin=mysql_native_password']
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pedm2022"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: museu-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-edm2022}
+      DB_NAME: ${DB_NAME:-museu_edm_final}
+      DB_PORT: 3306
+      JWT_SECRET: ${JWT_SECRET:-museu_edm_secret_key_2025_change_in_production}
+      PORT: 5050
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: museu-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      VITE_API_PROXY_TARGET: http://backend:5050
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+volumes:
+  db_data:

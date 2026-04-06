@@ -62,12 +62,12 @@ const FeaturedStories: React.FC = () => {
   const smallStories = stories.slice(2);
 
   return (
-    <section className="py-24 px-8 bg-surface-container-low">
+    <section id="historia" className="py-24 px-8 bg-surface-container-low">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div>
-            <h2 className="text-4xl md:text-5xl font-black font-headline tracking-tighter mb-4 text-on-surface">HISTÓRIAS DE DESTAQUE</h2>
-            <p className="text-on-surface/60 max-w-xl font-body">Explore os marcos fundamentais da rede elétrica moçambicana através das suas regiões mais emblemáticas.</p>
+            <h2 className="text-4xl md:text-5xl font-black font-headline tracking-tighter mb-4 text-on-surface">Nossa História</h2>
+            <p className="text-on-surface/60 max-w-xl font-body">Histórias de Destaque.</p>
           </div>
           <Link to="/patrimonio-geracao" className="group flex items-center gap-2 text-primary-container font-bold uppercase tracking-widest text-sm font-body">
             Ver Arquivo Completo

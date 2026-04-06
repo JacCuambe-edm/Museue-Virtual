@@ -31,7 +31,7 @@ const Heritage: React.FC = () => {
   };
 
   return (
-    <section className="py-24 px-8 bg-surface-container-lowest font-body">
+    <section id="patrimonio" className="py-24 px-8 bg-surface-container-lowest font-body">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16">
           <h2 className="text-4xl font-black font-headline tracking-tighter mb-4 text-on-surface uppercase">PATRIMÓNIO EM DESTAQUE</h2>
@@ -49,8 +49,8 @@ const Heritage: React.FC = () => {
         ) : (
           <div className="flex gap-8 overflow-x-auto pb-12 hide-scrollbar">
             {items.map((item) => (
-              <Link 
-                to={`/artigo/${item.id}`} 
+              <Link
+                to={`/patrimonio/${item.id}`}
                 key={item.id} 
                 className="min-w-[300px] md:min-w-[400px] bg-white rounded-2xl overflow-hidden group shadow-sm border border-outline-variant/10 block hover:shadow-lg transition-shadow"
               >
