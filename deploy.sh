@@ -17,15 +17,14 @@ echo ""
 
 # ── 1. Verificar Node.js ──────────────────────────────────────
 echo "▶ A verificar Node.js..."
-if ! command -v node &>/dev/null; then
-  echo "  Node.js não encontrado. A instalar via NodeSource..."
+NODE_VER=0
+if command -v node &>/dev/null; then
+  NODE_VER=$(node -e "process.stdout.write(process.versions.node.split('.')[0])")
+fi
+if [ "$NODE_VER" -lt "$NODE_MIN" ]; then
+  echo "  Node.js $NODE_VER insuficiente (requer >= $NODE_MIN). A instalar Node.js 22..."
   curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
   sudo apt-get install -y nodejs
-fi
-NODE_VER=$(node -e "process.stdout.write(process.versions.node.split('.')[0])")
-if [ "$NODE_VER" -lt "$NODE_MIN" ]; then
-  echo "  ERRO: Node.js $NODE_VER encontrado mas requer >= $NODE_MIN"
-  exit 1
 fi
 echo "  ✅ Node.js $(node --version)"
 
