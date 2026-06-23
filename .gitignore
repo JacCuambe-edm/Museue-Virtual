@@ -1,6 +1,6 @@
-# Logs
-logs
+# Logs (apenas ficheiros de log, não pastas de código)
 *.log
+/logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
