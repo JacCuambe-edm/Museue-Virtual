@@ -1,0 +1,24 @@
+[Unit]
+Description=Museu Virtual da EDM — API Node.js
+Documentation=https://museu.edm.co.mz
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/museu
+EnvironmentFile=/var/www/museu/.env
+ExecStart=/usr/bin/node /var/www/museu/backend/index.js
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=museu-virtual
+
+# Limites de recursos
+LimitNOFILE=65536
+MemoryMax=300M
+
+[Install]
+WantedBy=multi-user.target
