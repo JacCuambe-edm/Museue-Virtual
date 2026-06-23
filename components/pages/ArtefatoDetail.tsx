@@ -15,6 +15,7 @@ import {
 import api from '../../services/apiClient';
 import PageMetrics from '../ui/PageMetrics';
 import CommentSection from '../ui/CommentSection';
+import { usePageMeta } from '../../hooks/usePageMeta';
 
 const ArtefatoDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -25,6 +26,12 @@ const ArtefatoDetail: React.FC = () => {
   const [gallery, setGallery] = useState<string[]>([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+
+  usePageMeta({
+    title: artifact?.nome || artifact?.titulo,
+    description: artifact?.descricao?.substring(0, 150),
+    image: artifact?.foto,
+  });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement | HTMLImageElement>) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
@@ -39,12 +46,13 @@ const ArtefatoDetail: React.FC = () => {
         if (!id) return;
         const data = await api.getArtefato(parseInt(id));
         setArtifact(data);
-        setActiveImage(data.foto);
+        setActiveImage(data.foto || '');
         if (data.galeria) {
           try {
-            setGallery(JSON.parse(data.galeria));
+            const parsed = JSON.parse(data.galeria);
+            setGallery(Array.isArray(parsed) ? parsed.filter(Boolean) : (data.foto ? [data.foto] : []));
           } catch (e) {
-            setGallery([data.foto]);
+            setGallery(data.foto ? [data.foto] : []);
           }
         }
       } catch (err) {
@@ -96,7 +104,7 @@ const ArtefatoDetail: React.FC = () => {
           <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
             <img 
               src={activeImage} 
-              alt={artifact.titulo}
+              alt={artifact.nome || artifact.titulo}
               className="max-w-full max-h-full object-contain shadow-2xl rounded-lg animate-in zoom-in-95 duration-500 transition-all duration-300 ease-out cursor-zoom-out"
               style={{ 
                 transformOrigin: `${mousePos.x}% ${mousePos.y}%`,
@@ -128,7 +136,7 @@ const ArtefatoDetail: React.FC = () => {
             >
               <img 
                 src={activeImage} 
-                alt={artifact.titulo}
+                alt={artifact.nome || artifact.titulo}
                 className="w-full h-full object-cover transition-all duration-500 ease-out group-hover/main:scale-[2]"
                 style={{ 
                   transformOrigin: `${mousePos.x}% ${mousePos.y}%`
@@ -154,7 +162,7 @@ const ArtefatoDetail: React.FC = () => {
                     onClick={() => setActiveImage(img)}
                     className={`relative w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 border-2 transition-all ${activeImage === img ? 'border-orange-500 scale-105 shadow-md' : 'border-transparent opacity-60 hover:opacity-100'}`}
                   >
-                    <img src={img} alt={`${artifact.titulo} ${idx + 1}`} className="w-full h-full object-cover" />
+                    <img src={img} alt={`${artifact.nome || artifact.titulo} ${idx + 1}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
@@ -177,7 +185,7 @@ const ArtefatoDetail: React.FC = () => {
               </div>
 
               <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight font-serif">
-                {artifact.titulo}
+                {artifact.nome || artifact.titulo}
               </h1>
 
               <div className="flex items-center gap-3 text-slate-500 mb-8 border-b border-slate-100 pb-8">
@@ -209,7 +217,7 @@ const ArtefatoDetail: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Estado de Conservação</h4>
-                      <p className="text-slate-900 font-bold">{artifact.estado}</p>
+                      <p className="text-slate-900 font-bold">{artifact.estado_conservacao || artifact.estado || '—'}</p>
                     </div>
                   </div>
                 </div>

@@ -33,10 +33,10 @@ const Immersion: React.FC = () => {
     <section className="py-24 bg-surface-container-lowest font-body">
       <div className="max-w-7xl mx-auto px-8">
         <div className="relative rounded-[2rem] overflow-hidden bg-primary-container aspect-[21/9] flex items-center justify-center shadow-2xl">
-          <img 
-            className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-40" 
-            alt="Wide angle view of a power station" 
-            src="https://9c1d08050eb7db8d4704e1dad847a643.cdn.bubble.io/cdn-cgi/image/w=128,h=128,f=auto,dpr=1.5,fit=contain/f1706512652442x252334399599591900/div.framer-1htupq9.png"
+          <img
+            className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-50"
+            alt="Exposição EDM"
+            src="/Hero01.png"
           />
           <div className="relative z-10 text-center px-6">
             <h2 className="text-4xl md:text-6xl font-black font-headline text-on-primary mb-6">

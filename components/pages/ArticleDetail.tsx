@@ -4,6 +4,7 @@ import { ArrowLeft, Calendar, Eye, Tag, Edit, Trash2, Loader2 } from 'lucide-rea
 import { api } from '../../services/apiClient';
 import PageMetrics from '../ui/PageMetrics';
 import CommentSection from '../ui/CommentSection';
+import { usePageMeta } from '../../hooks/usePageMeta';
 
 const ArticleDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -14,6 +15,12 @@ const ArticleDetail: React.FC = () => {
     const [error, setError] = useState('');
     const [deleting, setDeleting] = useState(false);
     const isAdmin = api.isAuthenticated();
+
+    usePageMeta({
+        title: article?.title,
+        description: article?.subtitle || article?.body_text?.substring(0, 150),
+        image: article?.image3,
+    });
 
     useEffect(() => {
         if (!id) return;
@@ -168,7 +175,7 @@ const ArticleDetail: React.FC = () => {
                             <div className="w-full md:w-5/12">
                                 {imageUrl ? (
                                    <div className="relative aspect-[4/3] w-full overflow-hidden">
-                                       <img src={imageUrl} alt={article.title} className="w-full h-full object-cover" />
+                                       <img src={imageUrl} alt={article.title} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/logo.png'; }} />
                                        <button className="absolute left-2 top-1/2 -translate-y-1/2 text-white hover:scale-110 transition"><ArrowLeft size={24} className="drop-shadow-md" /></button>
                                        <button className="absolute right-2 top-1/2 -translate-y-1/2 text-white hover:scale-110 transition rotate-180"><ArrowLeft size={24} className="drop-shadow-md" /></button>
                                    </div>
@@ -183,10 +190,10 @@ const ArticleDetail: React.FC = () => {
                                     {article.title}
                                 </h1>
                                 <p className="text-gray-600 text-lg mb-2">
-                                    {article.short_description}
+                                    {article.subtitle || article.short_description}
                                 </p>
                                 <p className="text-gray-600">
-                                    {article.category.replace('Patrimônio ', '')}
+                                    {article.category?.replace('Patrimônio ', '') || ''}
                                 </p>
 
                                 <div className="mt-6">
@@ -242,20 +249,20 @@ const ArticleDetail: React.FC = () => {
                                     <div key={rel.id} className="cursor-pointer group bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1" onClick={() => { window.scrollTo(0,0); navigate(`/artigo/${rel.id}`); }}>
                                         <div className="h-48 overflow-hidden bg-gray-100">
                                             {rel.image3 ? (
-                                                <img src={rel.image3.startsWith('//') ? `https:${rel.image3}` : rel.image3} alt={rel.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                                <img src={rel.image3.startsWith('//') ? `https:${rel.image3}` : rel.image3} alt={rel.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/logo.png'; }} />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center text-gray-400">Sem imagem</div>
                                             )}
                                         </div>
                                         <div className="p-6">
-                                            <p className="text-xs font-semibold text-orange-500 mb-2 uppercase tracking-wider">{rel.category.replace('Patrimônio ', '')}</p>
+                                            <p className="text-xs font-semibold text-orange-500 mb-2 uppercase tracking-wider">{rel.category?.replace('Patrimônio ', '') || ''}</p>
                                             <h3 className="font-bold text-gray-900 text-lg mb-3 line-clamp-2 group-hover:text-orange-600 transition-colors duration-300">
                                                 {rel.title}
                                             </h3>
                                             <div className="flex items-center text-xs text-gray-400 mt-4 pt-4 border-t border-gray-100">
                                                 <span>{new Date(rel.created_at).toLocaleDateString('pt-MZ', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
                                                 <span className="mx-2">•</span>
-                                                <span>by {rel.author_email?.split('@')[0] || 'admin'}</span>
+                                                <span>by {(rel.author || rel.author_email)?.split('@')[0] || 'admin'}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -319,9 +326,9 @@ const ArticleDetail: React.FC = () => {
                             {article.title}
                         </h1>
 
-                        {article.short_description && (
+                        {(article.subtitle || article.short_description) && (
                             <p className="text-white/70 text-sm sm:text-base md:text-lg mt-2 md:mt-3 max-w-2xl">
-                                {article.short_description}
+                                {article.subtitle || article.short_description}
                             </p>
                         )}
 
@@ -378,10 +385,10 @@ const ArticleDetail: React.FC = () => {
                     </div>
 
                     {/* Author info */}
-                    {article.author_email && (
+                    {(article.author || article.author_email) && (
                         <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-200">
                             <p className="text-xs sm:text-sm text-gray-400">
-                                Publicado por <span className="text-gray-600 font-medium">{article.author_email}</span>
+                                Publicado por <span className="text-gray-600 font-medium">{article.author || article.author_email}</span>
                             </p>
                         </div>
                     )}

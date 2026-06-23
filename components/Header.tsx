@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Search } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import SearchModal from './SearchModal';
 
 const Header: React.FC = () => {
-  const location = useLocation();
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [mobileOpenSection, setMobileOpenSection] = useState<string | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  const transparent = isHome && !scrolled;
 
   const navLinks = [
     { 
@@ -67,30 +72,28 @@ const Header: React.FC = () => {
     },
   ];
 
-  const hasTransparentHero = [
-    '/',
-    '/sobre-museu', '/apresentacao-empresa', '/geracao', '/transporte', '/distribuicao', '/comercial',
-    '/historia-geracao', '/historia-transporte', '/historia-distribuicao', '/historia-comercializacao',
-    '/galeria-presidentes',
-    '/patrimonio-geracao', '/patrimonio-transporte', '/patrimonio-distribuicao', '/patrimonio-comercial',
-    '/transmissao-sul', '/transmissao-centro', '/transmissao-norte',
-    '/exposicoes',
-    '/artefatos-geracao', '/artefatos-transporte', '/artefatos-distribuicao', '/artefatos-comercial'
-  ].includes(location.pathname);
-
-  const shouldBeSolid = isScrolled || !hasTransparentHero;
-
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-outline-variant/20 ${
-        shouldBeSolid ? 'bg-white/90 backdrop-blur-md shadow-sm py-0' : 'bg-surface/80 backdrop-blur-md py-0'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        transparent
+          ? 'bg-transparent border-b border-white/10'
+          : 'bg-white border-b border-gray-100 shadow-sm'
       }`}
       onMouseLeave={() => setActiveDropdown(null)}
     >
       <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-20">
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="/" className={`text-3xl font-bold tracking-tighter transition-colors ${shouldBeSolid ? 'text-brand-orange' : 'text-white'}`}>
+          <Link
+            to="/"
+            className="tracking-tight transition-colors"
+            style={{
+              fontFamily: 'Epilogue, sans-serif',
+              fontSize: '24px',
+              fontWeight: 600,
+              color: transparent ? '#ffffff' : '#fb8626',
+            }}
+          >
             Museu
           </Link>
         </div>
@@ -98,26 +101,24 @@ const Header: React.FC = () => {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center space-x-8 h-full">
           {navLinks.map((link) => (
-            <div 
-              key={link.name} 
+            <div
+              key={link.name}
               className="relative h-full flex items-center group"
               onMouseEnter={() => link.subItems && setActiveDropdown(link.name)}
             >
               {link.routePath && !link.subItems ? (
                 <Link
                   to={link.routePath}
-                  className={`flex items-center text-sm font-medium hover:text-brand-orange transition-colors ${
-                    shouldBeSolid ? 'text-gray-700' : 'text-white'
-                  }`}
+                  className="flex items-center text-sm font-medium transition-colors hover:text-orange-400"
+                  style={{ color: transparent ? 'rgba(255,255,255,0.9)' : '#212121' }}
                 >
                   {link.name}
                 </Link>
               ) : (
-                <a 
+                <a
                   href={link.href}
-                  className={`flex items-center text-sm font-medium hover:text-brand-orange transition-colors ${
-                    shouldBeSolid ? 'text-gray-700' : 'text-white'
-                  }`}
+                  className="flex items-center text-sm font-medium transition-colors hover:text-orange-400"
+                  style={{ color: transparent ? 'rgba(255,255,255,0.9)' : '#212121' }}
                 >
                   {link.name}
                   {link.subItems && <ChevronDown size={14} className="ml-1 mt-0.5" />}
@@ -179,33 +180,52 @@ const Header: React.FC = () => {
           ))}
         </nav>
 
-        {/* Action Button */}
-        <div className="hidden md:block">
-           <Link 
-            to="/timeline" 
-            className={`text-sm font-semibold px-8 py-3 rounded-full transition-colors shadow-lg ${
-              shouldBeSolid 
-                ? 'bg-brand-orange text-white hover:bg-orange-600' 
-                : 'bg-white text-brand-orange hover:bg-gray-100'
+        {/* Search + Action Button */}
+        <div className="hidden md:flex items-center gap-3">
+          <button
+            onClick={() => setSearchOpen(true)}
+            className={`p-2.5 rounded-full border transition-colors ${
+              transparent
+                ? 'border-white/30 text-white hover:bg-white/10 hover:border-white/60'
+                : 'border-gray-200 text-gray-500 hover:text-orange-500 hover:border-orange-300'
             }`}
+            aria-label="Pesquisar"
+          >
+            <Search size={18} />
+          </button>
+          <Link
+            to="/timeline"
+            className="text-sm font-semibold px-8 py-3 rounded-full transition-all shadow-lg text-white hover:opacity-90 hover:scale-105"
+            style={{ backgroundColor: '#fb8626' }}
           >
             Linha de tempo
           </Link>
         </div>
 
         {/* Mobile Menu Button */}
-        <button 
-          className={`md:hidden transition-colors ${shouldBeSolid ? 'text-brand-orange' : 'text-white'}`}
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        <button
+          className="md:hidden transition-colors"
+          style={{ color: transparent ? '#ffffff' : '#fb8626' }}
+          onClick={() => { setMobileMenuOpen(!mobileMenuOpen); setMobileOpenSection(null); }}
         >
           {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
+      {/* Search Modal */}
+      {searchOpen && <SearchModal onClose={() => setSearchOpen(false)} />}
+
       {/* Mobile Nav */}
       {mobileMenuOpen && (
         <div className="md:hidden fixed inset-x-0 top-[80px] bottom-0 bg-white z-40 overflow-y-auto">
           <div className="flex flex-col p-6 space-y-6 pb-24">
+          <button
+            onClick={() => { setSearchOpen(true); setMobileMenuOpen(false); }}
+            className="flex items-center gap-3 py-3 px-4 border border-gray-200 rounded-xl text-gray-500 hover:text-orange-500 hover:border-orange-300 transition-colors text-sm"
+          >
+            <Search size={16} />
+            Pesquisar no museu...
+          </button>
            {navLinks.map((link) => (
             <div key={link.name} className="flex flex-col space-y-3">
               {link.routePath && !link.subItems ? (
@@ -218,18 +238,20 @@ const Header: React.FC = () => {
                 </Link>
               ) : (
                 <button
-                  type="button" 
+                  type="button"
                   className="text-lg font-bold text-gray-800 flex justify-between items-center py-2 w-full text-left active:bg-gray-50 px-2 -mx-2 rounded-lg"
-                  onClick={() => {
-                     // Toggle submenu or just let it stay open? 
-                     // The current design shows subitems always if present? No, let's keep it simple.
-                  }}
+                  onClick={() => setMobileOpenSection(mobileOpenSection === link.name ? null : link.name)}
                 >
                   {link.name}
-                  {link.subItems && <ChevronDown size={16} />}
+                  {link.subItems && (
+                    <ChevronDown
+                      size={16}
+                      className={`transition-transform duration-200 ${mobileOpenSection === link.name ? 'rotate-180' : ''}`}
+                    />
+                  )}
                 </button>
               )}
-              {link.subItems && (
+              {link.subItems && mobileOpenSection === link.name && (
                 <div className="pl-4 flex flex-col space-y-3 border-l-2 border-brand-orange/20 ml-2">
                   {link.subItems.map((sub, idx) => {
                     const label = typeof sub === 'string' ? sub : sub.label;

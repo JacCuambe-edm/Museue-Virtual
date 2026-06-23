@@ -154,9 +154,7 @@ const TransmissaoNorte: React.FC = () => {
                         src={item.foto} 
                         alt={item.nome}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                        onError={(e) => {
-                          e.currentTarget.src = 'https://via.placeholder.com/400x250/f97316/ffffff?text=EDM+Transmissão';
-                        }}
+                        onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/logo.png'; }}
                       />
                       
                       {/* Image Overlay */}

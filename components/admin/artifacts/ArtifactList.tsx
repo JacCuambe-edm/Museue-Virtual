@@ -113,7 +113,7 @@ const ArtifactList: React.FC = () => {
             <div key={artifact.id} className="group bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
               <div className="relative h-48 overflow-hidden bg-gray-100">
                 {(artifact.foto || artifact.foto1) ? (
-                  <img src={getImageUrl(artifact.foto || artifact.foto1)} alt={artifact.titulo || artifact.nome} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src={getImageUrl(artifact.foto || artifact.foto1)} alt={artifact.titulo || artifact.nome} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/logo.png'; e.currentTarget.className = 'w-12 h-12 object-contain opacity-20 absolute inset-0 m-auto'; }} />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 uppercase tracking-tighter text-xs">
                     <ImageIcon className="w-8 h-8 mb-2 opacity-20" />

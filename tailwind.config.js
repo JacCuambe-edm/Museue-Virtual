@@ -10,6 +10,13 @@ export default {
   theme: {
     extend: {
       colors: {
+        brand: {
+          orange: '#fb8626',
+          dark: '#212121',
+          gray: '#a4a4a4',
+          light: '#ffffff',
+          footer: '#505355',
+        },
         orange: {
           50: '#fff7ed',
           100: '#ffedd5',
@@ -73,9 +80,10 @@ export default {
       fontFamily: {
         "headline": ["Plus Jakarta Sans", "sans-serif"],
         "body": ["Inter", "sans-serif"],
-        "label": ["Inter", "sans-serif"]
+        "label": ["Inter", "sans-serif"],
+        "epilogue": ["Epilogue", "sans-serif"],
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animate')],
 }

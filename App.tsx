@@ -9,7 +9,6 @@ import Immersion from './components/sections/Immersion';
 import LifeStories from './components/sections/LifeStories';
 import Heritage from './components/sections/Heritage';
 import LogoCloud from './components/sections/LogoCloud';
-import Artifacts from './components/sections/Artifacts';
 import Exhibitions from './components/sections/Exhibitions';
 import SobreMuseu from './components/pages/SobreMuseu';
 import ApresentacaoEmpresa from './components/pages/ApresentacaoEmpresa';
@@ -40,6 +39,7 @@ import ArtefatosDistribuicao from './components/pages/ArtefatosDistribuicao';
 import ArtefatosComercial from './components/pages/ArtefatosComercial';
 import ArtefatoDetail from './components/pages/ArtefatoDetail';
 import TimelinePage from './components/pages/TimelinePage';
+import HistoriaPage from './components/pages/HistoriaPage';
 import SessionTracker from './components/SessionTracker';
 import LogsDashboard from './components/admin/logs/LogsDashboard';
 import Login from './components/admin/Login';
@@ -63,6 +63,8 @@ import UserList from './components/admin/users/UserList';
 import UserForm from './components/admin/users/UserForm';
 import TestemunhosList from './components/admin/testemunhos/TestemunhosList';
 import TestemunhoForm from './components/admin/testemunhos/TestemunhoForm';
+import ProtectedRoute from './components/ProtectedRoute';
+import ScrollToTop from './components/ScrollToTop';
 
 // Home Page Component
 const HomePage: React.FC = () => {
@@ -85,6 +87,7 @@ const PublicLayout: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col font-body bg-background text-on-surface selection:bg-primary-container selection:text-on-primary">
       <SessionTracker />
+      <ScrollToTop />
       <Header />
       <main className="flex-grow pt-0">
         <Outlet />
@@ -101,34 +104,36 @@ function App() {
         {/* Admin Routes */}
         <Route path="/admin/login" element={<Login />} />
         <Route path="/admin" element={<Login />} />
-        <Route path="/admin/dashboard" element={<DashboardLayout />}>
-          <Route index element={<DashboardHome />} />
-          <Route path="analytics" element={<AnalyticsDashboard />} />
-          <Route path="logs" element={<LogsDashboard />} />
-          <Route path="stories" element={<StoryList />} />
-          <Route path="stories/create" element={<StoryForm />} />
-          <Route path="stories/edit/:id" element={<StoryForm />} />
-          <Route path="heritage" element={<HeritageList />} />
-          <Route path="heritage/create" element={<HeritageForm />} />
-          <Route path="heritage/edit/:id" element={<HeritageForm />} />
-          <Route path="exhibitions" element={<ExhibitionList />} />
-          <Route path="exhibitions/create" element={<ExhibitionForm />} />
-          <Route path="exhibitions/edit/:id" element={<ExhibitionForm />} />
-          <Route path="events" element={<EventList />} />
-          <Route path="events/create" element={<EventForm />} />
-          <Route path="events/edit/:id" element={<EventForm />} />
-          <Route path="artifacts" element={<ArtifactList />} />
-          <Route path="artifacts/create" element={<ArtifactForm />} />
-          <Route path="artifacts/edit/:id" element={<ArtifactForm />} />
-          <Route path="comments" element={<CommentsList />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="users" element={<UserList />} />
-          <Route path="users/create" element={<UserForm />} />
-          <Route path="users/edit/:id" element={<UserForm />} />
-          <Route path="testemunhos" element={<TestemunhosList />} />
-          <Route path="testemunhos/create" element={<TestemunhoForm />} />
-          <Route path="testemunhos/edit/:id" element={<TestemunhoForm />} />
-          <Route path="*" element={<DashboardHome />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin/dashboard" element={<DashboardLayout />}>
+            <Route index element={<DashboardHome />} />
+            <Route path="analytics" element={<AnalyticsDashboard />} />
+            <Route path="logs" element={<LogsDashboard />} />
+            <Route path="stories" element={<StoryList />} />
+            <Route path="stories/create" element={<StoryForm />} />
+            <Route path="stories/edit/:id" element={<StoryForm />} />
+            <Route path="heritage" element={<HeritageList />} />
+            <Route path="heritage/create" element={<HeritageForm />} />
+            <Route path="heritage/edit/:id" element={<HeritageForm />} />
+            <Route path="exhibitions" element={<ExhibitionList />} />
+            <Route path="exhibitions/create" element={<ExhibitionForm />} />
+            <Route path="exhibitions/edit/:id" element={<ExhibitionForm />} />
+            <Route path="events" element={<EventList />} />
+            <Route path="events/create" element={<EventForm />} />
+            <Route path="events/edit/:id" element={<EventForm />} />
+            <Route path="artifacts" element={<ArtifactList />} />
+            <Route path="artifacts/create" element={<ArtifactForm />} />
+            <Route path="artifacts/edit/:id" element={<ArtifactForm />} />
+            <Route path="comments" element={<CommentsList />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="users" element={<UserList />} />
+            <Route path="users/create" element={<UserForm />} />
+            <Route path="users/edit/:id" element={<UserForm />} />
+            <Route path="testemunhos" element={<TestemunhosList />} />
+            <Route path="testemunhos/create" element={<TestemunhoForm />} />
+            <Route path="testemunhos/edit/:id" element={<TestemunhoForm />} />
+            <Route path="*" element={<DashboardHome />} />
+          </Route>
         </Route>
 
         {/* Public Routes */}
@@ -158,6 +163,7 @@ function App() {
           <Route path="/exposicao/:id" element={<ExposicaoDetail />} />
           <Route path="/evento/:id" element={<EventoDetail />} />
           <Route path="/artefato/:id" element={<ArtefatoDetail />} />
+          <Route path="/historia" element={<HistoriaPage title="História da EDM" subtitle="Conheça a nossa história de" description="A Electricidade de Moçambique tem 48 anos de história ao serviço do povo moçambicano. Explore os momentos mais marcantes da nossa jornada." category="" />} />
           <Route path="/artefatos-geracao" element={<ArtefatosGeracao />} />
           <Route path="/artefatos-transporte" element={<ArtefatosTransporte />} />
           <Route path="/artefatos-distribuicao" element={<ArtefatosDistribuicao />} />

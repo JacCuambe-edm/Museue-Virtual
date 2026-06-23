@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "nome": "Aniversário da EDM — 48 Anos",
+    "subtitulo": "Celebrando 48 anos de serviço",
+    "tipo": "Celebração",
+    "data_inicio": "2025-06-07",
+    "data_fim": "2025-06-07",
+    "participantes": "Todos os colaboradores, parceiros e convidados institucionais",
+    "local_evento": "Sede da EDM, Maputo",
+    "descricao": "Celebração do 48.º aniversário da Electricidade de Moçambique. Evento que reúne colaboradores, parceiros e entidades governamentais.",
+    "foto": "/exposicoes/48anos/trabalhadores_costas.png",
+    "galeria": "[]",
+    "created_at": "2026-06-21 07:33:50",
+    "updated_at": "2026-06-21 07:33:50"
+  },
+  {
+    "id": 2,
+    "nome": "Seminário Nacional de Energia Renovável",
+    "subtitulo": "Perspectivas para um futuro sustentável",
+    "tipo": "Seminário",
+    "data_inicio": "2025-09-15",
+    "data_fim": "2025-09-17",
+    "participantes": "Especialistas nacionais e internacionais, representantes do Governo",
+    "local_evento": "Hotel Radisson Blu, Maputo",
+    "descricao": "Seminário focado nas perspectivas de energia renovável em Moçambique. Serão discutidas estratégias para energias solar, eólica e hídrica.",
+    "foto": "/exposicoes/45anos/expo_header.jpg",
+    "galeria": "[]",
+    "created_at": "2026-06-21 07:33:50",
+    "updated_at": "2026-06-21 07:33:50"
+  },
+  {
+    "id": 3,
+    "nome": "Programa de Electrificação Rural 2025",
+    "subtitulo": "Mais luz para as comunidades",
+    "tipo": "Programa",
+    "data_inicio": "2025-01-01",
+    "data_fim": "2025-12-31",
+    "participantes": "Comunidades beneficiárias, ONGs, Governo distrital",
+    "local_evento": "Diversas províncias",
+    "descricao": "Programa anual de expansão da rede eléctrica para zonas rurais. Em 2025, o programa prevê electrificar 50 novas localidades.",
+    "foto": "/images/historia/geração.jpg",
+    "galeria": "[]",
+    "created_at": "2026-06-21 07:33:50",
+    "updated_at": "2026-06-21 07:33:50"
+  }
+]

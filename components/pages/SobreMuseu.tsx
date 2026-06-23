@@ -1,5 +1,5 @@
-import React from "react";
-import { User } from "lucide-react";
+import React, { useState } from "react";
+import { usePageMeta } from '../../hooks/usePageMeta';
 
 interface TeamMember {
   name: string;
@@ -7,23 +7,39 @@ interface TeamMember {
   image?: string;
 }
 
+const avatarColors = ['#fb8626', '#F16624', '#c2410c'];
+
+const Avatar: React.FC<{ member: TeamMember; index: number }> = ({ member, index }) => {
+  const [imgError, setImgError] = useState(false);
+  const initials = member.name.split(' ').map(n => n[0]).filter(Boolean).slice(0, 2).join('');
+
+  if (member.image && !imgError) {
+    return (
+      <img
+        src={member.image}
+        alt={member.name}
+        className="w-full h-full object-cover"
+        onError={() => setImgError(true)}
+      />
+    );
+  }
+
+  return (
+    <div
+      className="w-full h-full flex items-center justify-center text-white text-3xl font-black font-headline"
+      style={{ backgroundColor: avatarColors[index % avatarColors.length] }}
+    >
+      {initials}
+    </div>
+  );
+};
+
 const SobreMuseu: React.FC = () => {
+  usePageMeta({ title: 'Sobre o Museu', description: 'Conheça a equipa, a missão e a visão do Museu Virtual da Electricidade de Moçambique — EDM.', image: '/logo.png' });
   const teamMembers: TeamMember[] = [
-    {
-      name: "Dra Aissa Fumo",
-      role: "Directora da Academia da EDM",
-      image: "/team/aissa-fumo.jpg",
-    },
-    {
-      name: "Jerónimo Nhussi",
-      role: "Chefe do Departamento de Gestão de Conhecimento",
-      image: "/team/jeronimo-nhussi.jpg",
-    },
-    {
-      name: "Fernando Machava",
-      role: "Museólogo",
-      image: undefined,
-    },
+    { name: "Dra Aissa Fumo", role: "Directora da Academia da EDM" },
+    { name: "Jerónimo Nhussi", role: "Chefe do Departamento de Gestão de Conhecimento" },
+    { name: "Fernando Machava", role: "Museólogo" },
   ];
 
   return (
@@ -166,24 +182,8 @@ const SobreMuseu: React.FC = () => {
                 key={index}
                 className="flex flex-col items-center text-center"
               >
-                <div className="w-32 h-32 rounded-full overflow-hidden mb-4 bg-gray-200 flex items-center justify-center">
-                  {member.image ? (
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                        const parent = e.currentTarget.parentElement;
-                        if (parent) {
-                          parent.innerHTML =
-                            '<div class="w-full h-full flex items-center justify-center bg-gray-200"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>';
-                        }
-                      }}
-                    />
-                  ) : (
-                    <User size={48} className="text-gray-400" />
-                  )}
+                <div className="w-32 h-32 rounded-full overflow-hidden mb-4 ring-4 ring-orange-100 shadow-md">
+                  <Avatar member={member} index={index} />
                 </div>
                 <h3 className="font-bold text-gray-900 mb-1">{member.name}</h3>
                 <p className="text-sm text-gray-600 max-w-[200px]">

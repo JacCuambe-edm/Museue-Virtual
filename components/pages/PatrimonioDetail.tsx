@@ -92,10 +92,10 @@ const PatrimonioDetail: React.FC = () => {
                         {/* Image Side */}
                         <div className="lg:w-1/2 relative h-80 lg:h-auto overflow-hidden">
                             <img 
-                                src={item.foto || "/vitrine/Logo Edm Horizontal-01.png"} 
+                                src={item.foto || "/logo.png"} 
                                 alt={item.nome}
                                 className="w-full h-full object-cover"
-                                onError={(e) => { e.currentTarget.src = "/vitrine/Logo Edm Horizontal-01.png"; }}
+                                onError={(e) => { e.currentTarget.src = "/logo.png"; }}
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                             <div className="absolute bottom-6 left-6 flex items-center gap-3">

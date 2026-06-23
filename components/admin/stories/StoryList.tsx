@@ -136,11 +136,11 @@ const StoryList: React.FC = () => {
                 <div className="p-5 flex-1 flex flex-col">
                   <span className="text-sm text-orange-600 font-medium">{story.category}</span>
                   <h3 className="text-lg font-bold text-gray-900 mt-1 line-clamp-2">{story.title}</h3>
-                  <p className="text-sm text-gray-500 mt-2 line-clamp-2 flex-grow">{story.short_description}</p>
+                  <p className="text-sm text-gray-500 mt-2 line-clamp-2 flex-grow">{story.subtitle || story.short_description}</p>
                   <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
                     <div className="flex items-center gap-4 text-sm text-gray-500">
                       <div>
-                        <span className="font-medium text-gray-700 line-clamp-1 max-w-[120px]" title={story.author_email}>{story.author_email || 'Admin'}</span>
+                        <span className="font-medium text-gray-700 line-clamp-1 max-w-[120px]" title={story.author || story.author_email}>{story.author || story.author_email || 'Admin'}</span>
                         <span className="mx-1">•</span>
                         {new Date(story.created_at).toLocaleDateString()}
                       </div>
@@ -191,7 +191,7 @@ const StoryList: React.FC = () => {
                     </div>
                     <h3 className="text-base font-semibold text-gray-900 mt-1 truncate">{story.title}</h3>
                     <p className="text-sm text-gray-500 mt-1 flex items-center gap-3">
-                      <span>{story.author_email} • {new Date(story.created_at).toLocaleDateString()}</span>
+                      <span>{story.author || story.author_email || 'Admin'} • {new Date(story.created_at).toLocaleDateString()}</span>
                       <span className="flex items-center gap-1 text-gray-500" title="Visualizações">
                         <Eye className="w-3.5 h-3.5" /> {story.views || 0}
                       </span>

@@ -79,6 +79,7 @@ export const api = {
     },
 
     getMe: () => request<any>('GET', '/auth/me'),
+    forgotPassword: (email: string) => request<any>('POST', '/auth/forgot-password', { email }),
 
     isAuthenticated: () => !!getToken(),
     getCurrentUser: getUser,
@@ -203,6 +204,9 @@ export const api = {
     },
     getSessionPages: (session_id: string) => request<any[]>('GET', `/logs/session/${session_id}/pages`),
     getLogsExportUrl: (range = '30d') => `${API_BASE}/logs/export?range=${range}`,
+
+    // Search
+    search: (q: string) => request<any[]>('GET', `/search?q=${encodeURIComponent(q)}`),
 
     // File Upload (Multipart Form Data)
     uploadImage: async (file: File) => {

@@ -25,6 +25,31 @@ dist-ssr
 
 # Local Scratch & Dump Files
 *.sql
-*.cjs
 code.html
 test.png
+
+# Scripts temporários de migração/análise (apenas usados localmente)
+server/
+check_*.cjs
+reproduce_*.cjs
+test_*.cjs
+antigravity-kit/
+
+# Backend
+backend/node_modules/
+backend/museu.db
+backend/museu.db-shm
+backend/museu.db-wal
+backend/uploads/
+
+# PM2 logs
+.pm2/
+
+# Environment variables
+.env
+.env.production
+
+# Ficheiros de ambiente (contêm segredos)
+.env
+.env.production
+.env.local

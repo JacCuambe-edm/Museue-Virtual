@@ -3,7 +3,7 @@ import { MapPin, ArrowRight, FileX, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { api } from '../../services/apiClient';
 
-const defaultImage = "/vitrine/Logo Edm Horizontal-01.png";
+const defaultImage = "/logo.png";
 
 const PatrimonioTransporte: React.FC = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -105,9 +105,7 @@ const PatrimonioTransporte: React.FC = () => {
                         src={getImageUrl(item)} 
                         alt={item.nome}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                        onError={(e) => {
-                          e.currentTarget.src = 'https://via.placeholder.com/400x250/f97316/ffffff?text=EDM+Transporte';
-                        }}
+                        onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/logo.png'; }}
                       />
                       
                       {/* Image Overlay */}

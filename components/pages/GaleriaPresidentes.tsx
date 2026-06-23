@@ -137,9 +137,7 @@ const GaleriaPresidentes: React.FC = () => {
                       src={presidente.image} 
                       alt={presidente.name}
                       className="w-full h-full object-cover object-top"
-                      onError={(e) => {
-                        e.currentTarget.src = 'https://via.placeholder.com/224x256/f97316/ffffff?text=Presidente';
-                      }}
+                      onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/logo.png'; }}
                     />
                   </div>
                 </div>

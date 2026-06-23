@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MapPin, ArrowRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { api } from '../../services/apiClient';
+import { usePageMeta } from '../../hooks/usePageMeta';
 
 interface HistoriaPageProps {
     title: string;
@@ -10,9 +11,10 @@ interface HistoriaPageProps {
     category: string;
 }
 
-const defaultImage = "/vitrine/Logo Edm Horizontal-01.png"; // Fallback para não mostrar imagens aleatórias staticas
+const defaultImage = "/logo.png"; // Fallback para não mostrar imagens aleatórias staticas
 
 const HistoriaPage: React.FC<HistoriaPageProps> = ({ title, subtitle, description, category }) => {
+    usePageMeta({ title, description });
     const [articles, setArticles] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -101,6 +103,7 @@ const HistoriaPage: React.FC<HistoriaPageProps> = ({ title, subtitle, descriptio
                                                 src={getImage(article)}
                                                 alt={article.title}
                                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                                                onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = defaultImage; }}
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
@@ -126,7 +129,7 @@ const HistoriaPage: React.FC<HistoriaPageProps> = ({ title, subtitle, descriptio
                                                 {article.title}
                                             </h3>
                                             <p className="text-gray-500 text-xs sm:text-sm mb-4 sm:mb-5 line-clamp-3 leading-relaxed">
-                                                {article.short_description || article.body_text?.substring(0, 120) + '...'}
+                                                {article.subtitle || article.short_description || (article.body_text ? article.body_text.substring(0, 120) + '...' : '')}
                                             </p>
                                             <span className="inline-flex items-center gap-2 bg-gradient-to-r from-brand-orange to-orange-500 text-white font-semibold text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 rounded-full shadow-lg shadow-orange-200 hover:shadow-orange-300 hover:scale-105 transition-all duration-300">
                                                 <span>Explorar</span>

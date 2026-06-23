@@ -4,6 +4,7 @@ import { ArrowLeft, Calendar, MapPin, User, Edit, Trash2, Loader2 } from 'lucide
 import { api } from '../../services/apiClient';
 import PageMetrics from '../ui/PageMetrics';
 import CommentSection from '../ui/CommentSection';
+import { usePageMeta } from '../../hooks/usePageMeta';
 
 const ExposicaoDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -14,6 +15,12 @@ const ExposicaoDetail: React.FC = () => {
     const [error, setError] = useState('');
     const [deleting, setDeleting] = useState(false);
     const isAdmin = api.isAuthenticated();
+
+    usePageMeta({
+        title: item?.titulo || item?.artefatos_expostos,
+        description: item?.descricao?.substring(0, 150),
+        image: item?.foto1,
+    });
 
     useEffect(() => {
         if (!id) return;
@@ -76,7 +83,9 @@ const ExposicaoDetail: React.FC = () => {
             {/* Hero Banner */}
             <div className="relative w-full h-[35vh] sm:h-[45vh] md:h-[55vh] overflow-hidden">
                 {foto1Url ? (
-                    <img src={foto1Url} alt={titulo} className="absolute inset-0 w-full h-full object-cover" />
+                    <img src={foto1Url} alt={titulo} className="absolute inset-0 w-full h-full object-cover"
+                      onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.style.display = 'none'; }}
+                    />
                 ) : (
                     <div className="absolute inset-0 bg-gradient-to-br from-orange-600 to-orange-400" />
                 )}
@@ -184,6 +193,7 @@ const ExposicaoDetail: React.FC = () => {
                                     src={img.startsWith('//') ? `https:${img}` : img}
                                     alt={`Galeria ${idx + 1}`}
                                     className={`w-full object-cover group-hover:scale-105 transition-transform duration-700 ${idx === 0 ? 'h-64 sm:h-80 md:h-[400px]' : 'h-40 sm:h-48 md:h-52'}`}
+                                    onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/logo.png'; }}
                                 />
                             </div>
                         ))}
@@ -207,7 +217,7 @@ const ExposicaoDetail: React.FC = () => {
                                     <div key={rel.id} className="cursor-pointer group bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 rounded-xl overflow-hidden" onClick={() => { window.scrollTo(0,0); navigate(`/exposicao/${rel.id}`); }}>
                                         <div className="h-48 overflow-hidden bg-gray-100">
                                             {relImg ? (
-                                                <img src={relImg} alt={rel.titulo || rel.artefatos_expostos} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                                <img src={relImg} alt={rel.titulo || rel.artefatos_expostos} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/logo.png'; }} />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center text-gray-400">Sem imagem</div>
                                             )}

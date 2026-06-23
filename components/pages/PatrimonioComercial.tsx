@@ -3,7 +3,7 @@ import { MapPin, ArrowRight, FileX, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { api } from '../../services/apiClient';
 
-const defaultImage = "/vitrine/Logo Edm Horizontal-01.png";
+const defaultImage = "/logo.png";
 
 const PatrimonioComercial: React.FC = () => {
   const [articles, setArticles] = useState<any[]>([]);
@@ -102,9 +102,7 @@ const PatrimonioComercial: React.FC = () => {
                         src={getImage(item)} 
                         alt={item.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                        onError={(e) => {
-                          e.currentTarget.src = 'https://via.placeholder.com/400x250/f97316/ffffff?text=EDM+Comercialização';
-                        }}
+                        onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/logo.png'; }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                       
@@ -126,7 +124,7 @@ const PatrimonioComercial: React.FC = () => {
                       </h3>
                       
                       <p className="text-gray-500 text-sm mb-4 line-clamp-2 leading-relaxed">
-                        {item.short_description || item.body_text?.substring(0, 120) + '...'}
+                        {item.subtitle || item.short_description || (item.body_text ? item.body_text.substring(0, 120) + '...' : '')}
                       </p>
                       
                       <span className="text-xs font-medium text-brand-orange mb-4 block">Comercialização</span>

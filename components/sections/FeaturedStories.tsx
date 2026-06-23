@@ -28,7 +28,7 @@ const FeaturedStories: React.FC = () => {
             return {
               id: article.id,
               title: article.title,
-              short_description: article.short_description || (article.content ? article.content.substring(0, 100) + '...' : ''),
+              short_description: article.subtitle || article.short_description || (article.content ? article.content.substring(0, 100) + '...' : ''),
               category: article.category,
               image: finalImage,
               link: `/artigo/${article.id}`
@@ -80,10 +80,11 @@ const FeaturedStories: React.FC = () => {
           {mainStory && (
             <div className="md:col-span-8 group relative overflow-hidden rounded-2xl bg-surface-container shadow-sm border border-outline-variant/10 min-h-[400px]">
               {mainStory.image && (
-                <img 
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-30" 
+                <img
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-30"
                   alt={mainStory.title}
                   src={mainStory.image}
+                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.style.display = 'none'; }}
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
@@ -106,10 +107,11 @@ const FeaturedStories: React.FC = () => {
           {secondaryStory && (
             <div className={`group relative overflow-hidden rounded-2xl bg-surface-container shadow-sm border border-outline-variant/10 min-h-[400px] ${stories.length === 2 ? 'md:col-span-4' : 'md:col-span-4'}`}>
               {secondaryStory.image && (
-                <img 
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-30" 
+                <img
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-30"
                   alt={secondaryStory.title}
                   src={secondaryStory.image}
+                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.style.display = 'none'; }}
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent"></div>
@@ -137,10 +139,11 @@ const FeaturedStories: React.FC = () => {
             return (
               <div key={story.id} className={`${spanClass} group relative overflow-hidden rounded-2xl bg-surface-container shadow-sm border border-outline-variant/10 min-h-[250px]`}>
                  {story.image && (
-                    <img 
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-20 mix-blend-multiply" 
+                    <img
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-20 mix-blend-multiply"
                       alt={story.title}
                       src={story.image}
+                      onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.style.display = 'none'; }}
                     />
                  )}
                 <div className="p-8 flex flex-col h-full justify-between relative z-10">

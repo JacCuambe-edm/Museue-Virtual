@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import apiClient from '../../services/apiClient';
+import { api } from '../../services/apiClient';
 
 const About: React.FC = () => {
   const [stats, setStats] = useState({ artifacts: 0, provinces: 0 });
@@ -7,20 +7,20 @@ const About: React.FC = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [artifactsRes, patrimoniosRes] = await Promise.all([
-          apiClient.get('/artefatos'),
-          apiClient.get('/patrimonios')
+        const [artefatos, patrimonios] = await Promise.all([
+          api.getArtefatos({}),
+          api.getPatrimonios({})
         ]);
-        
-        const artifactsCount = artifactsRes.data.length;
-        const provinces = [...new Set(patrimoniosRes.data.map((p: any) => p.regiao).filter((r: any) => r))];
-        
+
+        const artifactsCount = artefatos.length;
+        const provinces = [...new Set(patrimonios.map((p: any) => p.regiao).filter((r: any) => r))];
+
         setStats({ artifacts: artifactsCount, provinces: provinces.length });
       } catch (error) {
         console.error('Error fetching stats:', error);
       }
     };
-    
+
     fetchStats();
   }, []);
 
@@ -62,7 +62,7 @@ const About: React.FC = () => {
             <img
               className="relative rounded-xl w-full h-[500px] object-cover shadow-xl grayscale hover:grayscale-0 transition-all duration-700"
               alt="Vintage industrial machinery"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5nocshYvLeAstpJgHHcy8an-x287VelRpV4V6JZMdgfRPRbF0-aA7JVH49Yy4dQ8CB-eZftSBMa-TayXuCTaB1eMacofMzPDRSoq_xfVD28MQRtyFIgAA-Emf3Yhd_Pi3zDnT1FU5-w3vosXwtu22Otu_TfT5MJIaVZeTzaUxkHQXnW0m4mVdDGPNytLED0dm_k0FXSL6eb9XfD5BmLQpz72UqdHKxugeby1mnsQpkwz4CZTQInHLkeus7toq6exjAxFRBFdf-xUH"
+              src="/Hero02.jpg"
             />
           </div>
         </div>

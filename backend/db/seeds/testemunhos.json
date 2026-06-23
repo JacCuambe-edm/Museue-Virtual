@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Fátima Artur",
+    "department": "Direcção de Recursos Humanos",
+    "message": "O Museu Virtual da EDM é uma janela para a nossa história. Ver registados os marcos que construímos ao longo de décadas enche-me de orgulho e de responsabilidade com o futuro.",
+    "image": "/uploads/1774042656991-242408896.avif",
+    "display_order": 1,
+    "created_at": "2026-03-20 21:38:12",
+    "updated_at": "2026-06-22 09:42:20"
+  },
+  {
+    "id": 2,
+    "name": "João Cumbe",
+    "department": "Engenharia de Distribuição",
+    "message": "Trabalho na EDM há mais de 15 anos e este museu representa exactamente o espírito da nossa empresa — preservar o passado para iluminar o futuro de Moçambique.",
+    "image": "/uploads/1774042705128-20072173.avif",
+    "display_order": 2,
+    "created_at": "2026-03-20 21:38:53",
+    "updated_at": "2026-06-22 09:42:20"
+  },
+  {
+    "id": 3,
+    "name": "Samuel Checo",
+    "department": "Operações e Manutenção",
+    "message": "Ver documentados os artefactos e equipamentos que utilizámos nas primeiras instalações do país é emocionante. É prova do esforço e da dedicação de gerações de técnicos da EDM.",
+    "image": "/uploads/1774042744300-477776081.avif",
+    "display_order": 3,
+    "created_at": "2026-03-20 21:39:17",
+    "updated_at": "2026-06-22 09:42:20"
+  },
+  {
+    "id": 4,
+    "name": "António Chamusso",
+    "department": "Direcção Comercial",
+    "message": "Este museu é um testemunho vivo da missão da EDM. Cada exposição conta uma história de superação e de compromisso com o desenvolvimento energético de Moçambique.",
+    "image": "/uploads/1774042892207-986188950.avif",
+    "display_order": 3,
+    "created_at": "2026-03-20 21:41:52",
+    "updated_at": "2026-06-22 09:42:20"
+  }
+]

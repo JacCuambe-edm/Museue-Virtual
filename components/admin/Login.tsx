@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, Loader2, Zap } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Loader2, Zap, X, CheckCircle } from 'lucide-react';
 import { api } from '../../services/apiClient';
 
 const Login: React.FC = () => {
@@ -10,6 +10,27 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // Forgot password modal
+  const [showForgot, setShowForgot] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [forgotLoading, setForgotLoading] = useState(false);
+  const [forgotSent, setForgotSent] = useState(false);
+  const [forgotError, setForgotError] = useState('');
+
+  const handleForgotSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setForgotError('');
+    setForgotLoading(true);
+    try {
+      await api.forgotPassword(forgotEmail);
+      setForgotSent(true);
+    } catch (err: any) {
+      setForgotError(err.message || 'Erro ao enviar pedido.');
+    } finally {
+      setForgotLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -153,9 +174,13 @@ const Login: React.FC = () => {
                 <input type="checkbox" className="w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500" />
                 <span className="ml-2 text-sm text-gray-600">Lembrar-me</span>
               </label>
-              <a href="#" className="text-sm text-orange-600 hover:text-orange-700 font-medium">
+              <button
+                type="button"
+                onClick={() => { setShowForgot(true); setForgotSent(false); setForgotError(''); setForgotEmail(''); }}
+                className="text-sm text-orange-600 hover:text-orange-700 font-medium"
+              >
                 Esqueci a senha
-              </a>
+              </button>
             </div>
 
             <button
@@ -179,6 +204,80 @@ const Login: React.FC = () => {
           </p>
         </div>
       </div>
+
+      {/* Forgot Password Modal */}
+      {showForgot && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 relative">
+            <button
+              onClick={() => setShowForgot(false)}
+              className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-100"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {forgotSent ? (
+              <div className="text-center py-4">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-8 h-8 text-green-500" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Email enviado</h3>
+                <p className="text-gray-500 text-sm mb-6">
+                  Se o email <strong>{forgotEmail}</strong> existir no sistema, receberá instruções de recuperação de senha em breve.
+                </p>
+                <button
+                  onClick={() => setShowForgot(false)}
+                  className="w-full py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors"
+                >
+                  Fechar
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="mb-6">
+                  <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center mb-4">
+                    <Mail className="w-6 h-6 text-orange-500" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-1">Recuperar senha</h3>
+                  <p className="text-gray-500 text-sm">Insira o seu email e enviaremos as instruções de recuperação.</p>
+                </div>
+
+                {forgotError && (
+                  <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-xl text-red-600 text-sm">
+                    {forgotError}
+                  </div>
+                )}
+
+                <form onSubmit={handleForgotSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <Mail className="h-4 w-4 text-gray-400" />
+                      </div>
+                      <input
+                        type="email"
+                        value={forgotEmail}
+                        onChange={e => setForgotEmail(e.target.value)}
+                        placeholder="o-seu-email@museu.cd"
+                        required
+                        className="block w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all text-sm"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={forgotLoading}
+                    className="w-full py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+                  >
+                    {forgotLoading ? <><Loader2 className="w-4 h-4 animate-spin" /> A enviar...</> : 'Enviar instruções'}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

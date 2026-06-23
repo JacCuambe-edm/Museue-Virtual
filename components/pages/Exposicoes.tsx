@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin, ArrowRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { api } from '../../services/apiClient';
+import { usePageMeta } from '../../hooks/usePageMeta';
 
 const Exposicoes: React.FC = () => {
+  usePageMeta({ title: 'Exposições', description: 'Explore as exposições do Museu Virtual da EDM — 45 Anos, 47 Anos, 48 Anos, FACIM 2025 e mais.' });
   const [exposicoes, setExposicoes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -95,6 +97,7 @@ const Exposicoes: React.FC = () => {
                       src={getImage(expo, index)}
                       alt={expo.artefatos_expostos || 'Exposição'}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = placeholderImages[index % placeholderImages.length]; }}
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-3 sm:p-4">
                       <h3 className="text-white font-semibold text-xs sm:text-sm line-clamp-2">
